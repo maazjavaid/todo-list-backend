@@ -4,6 +4,7 @@ import connectDB from "config/db";
 import todoRoutes from "routes/todoRoutes";
 import userRoutes from "routes/userRoutes";
 import dotenv from "dotenv";
+import { errorHandler } from "middlewares/errorHandler";
 const env = dotenv.config();
 connectDB();
 const app = express();
@@ -18,5 +19,7 @@ app.use(
 
 app.use("/todos", todoRoutes);
 app.use("/users", userRoutes);
+
+app.use(errorHandler);
 
 app.listen(process.env.PORT);

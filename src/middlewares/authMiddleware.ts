@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import User from "models/userModel";
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Response } from "express";
 
 export const protect = async (req: any, res: Response, next: NextFunction) => {
   let token;
@@ -11,8 +11,9 @@ export const protect = async (req: any, res: Response, next: NextFunction) => {
       req.user = await User.findById(decoded.id, { password: 0 });
       next();
     } catch (error) {
-      res.status(401);
-      throw new Error("Not authorized");
+      res.status(401).json({ message: "Not authorized" });
     }
+  } else {
+    res.status(401).json({ message: "Token not Found" });
   }
 };
