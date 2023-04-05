@@ -18,5 +18,9 @@ const userSchema = new mongoose_1.default.Schema({
         type: String,
         required: true,
     },
+    role: {
+        type: Number,
+        default: () => 1,
+    },
 });
 exports.default = mongoose_1.default.model("User", userSchema);

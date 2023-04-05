@@ -1,4 +1,4 @@
-import Todo from "../models/todoModel";
+import Todo from "models/todoModel";
 import { Request, Response } from "express";
 
 export const getTodos = async (req: any, res: Response) => {

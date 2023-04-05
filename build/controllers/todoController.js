@@ -13,7 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteTodo = exports.updateTodo = exports.addTodo = exports.getTodos = void 0;
-const todoModel_1 = __importDefault(require("../models/todoModel"));
+const todoModel_1 = __importDefault(require("models/todoModel"));
 const getTodos = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const todos = yield todoModel_1.default.find({ user: req.user._id });
     return res.status(200).json(todos);
