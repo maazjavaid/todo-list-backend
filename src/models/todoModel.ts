@@ -3,11 +3,11 @@ import mongoose from "mongoose";
 const todoSchema = new mongoose.Schema({
   title: {
     type: String,
-    required: true,
+    required: [true, "Todo title is required"],
   },
   user: {
     type: mongoose.SchemaTypes.ObjectId,
-    required: true,
+    required: [true, "User id is required"],
     ref: "User",
   },
   completed: Boolean,
