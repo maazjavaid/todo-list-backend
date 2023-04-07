@@ -1,5 +1,5 @@
 import User from "@/models/userModel";
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { ObjectId } from "mongoose";
 import expressAsyncHandler from "express-async-handler";
@@ -23,7 +23,7 @@ export const registerUser = expressAsyncHandler(
 );
 
 export const loginUser = expressAsyncHandler(
-  async (req: Request, res: Response) => {
+  async (req: Request, res: Response, next: NextFunction) => {
     const { email, password } = req.body;
     const user: any = await User.findOne(
       { email },
@@ -31,14 +31,14 @@ export const loginUser = expressAsyncHandler(
     );
     if (!user) {
       res.status(StatusCodes.NOT_FOUND);
-      throw new Error("User Not found");
+      next(new Error("User Not found"));
     }
 
     const passCheck = await user.comparePassword(password);
 
     if (!passCheck) {
       res.status(StatusCodes.UNAUTHORIZED);
-      throw new Error("Invalid Credentials");
+      next(new Error("Invalid Credentials"));
     }
 
     res.status(StatusCodes.OK).json({
