@@ -2,11 +2,12 @@ import jwt from "jsonwebtoken";
 import User from "models/userModel";
 import { NextFunction, Response } from "express";
 import expressAsyncHandler from "express-async-handler";
+import { StatusCodes } from "http-status-codes";
 
 export const protect = expressAsyncHandler(
   async (req: any, res: Response, next: NextFunction) => {
     if (!req.headers.authorization?.startsWith("Bearer")) {
-      res.status(401);
+      res.status(StatusCodes.UNAUTHORIZED);
       throw new Error("Token Required");
     }
 
@@ -15,7 +16,7 @@ export const protect = expressAsyncHandler(
     req.user = await User.findById(decoded.id);
 
     if (!req.user) {
-      res.status(401);
+      res.status(StatusCodes.UNAUTHORIZED);
       throw new Error("User not Authorized");
     }
     next();

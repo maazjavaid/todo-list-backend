@@ -3,6 +3,7 @@ import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { ObjectId } from "mongoose";
 import expressAsyncHandler from "express-async-handler";
+import { StatusCodes } from "http-status-codes";
 
 export const registerUser = expressAsyncHandler(
   async (req: Request, res: Response) => {
@@ -13,7 +14,7 @@ export const registerUser = expressAsyncHandler(
       email,
       password: password,
     });
-    res.status(201).json({
+    res.status(StatusCodes.OK).json({
       _id: user._id,
       name: user.name,
       email: user.email,
@@ -29,18 +30,18 @@ export const loginUser = expressAsyncHandler(
       { password: 1, name: 1, email: 1 }
     );
     if (!user) {
-      res.status(400);
+      res.status(StatusCodes.NOT_FOUND);
       throw new Error("User Not found");
     }
 
     const passCheck = await user.comparePassword(password);
 
     if (!passCheck) {
-      res.status(401);
+      res.status(StatusCodes.UNAUTHORIZED);
       throw new Error("Invalid Credentials");
     }
 
-    res.status(200).json({
+    res.status(StatusCodes.OK).json({
       _id: user._id,
       name: user.name,
       email: user.email,
