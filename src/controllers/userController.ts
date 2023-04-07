@@ -17,7 +17,6 @@ export const registerUser = expressAsyncHandler(
       _id: user._id,
       name: user.name,
       email: user.email,
-      token: generateJwt(user._id),
     });
   }
 );
@@ -27,7 +26,7 @@ export const loginUser = expressAsyncHandler(
     const { email, password } = req.body;
     const user: any = await User.findOne(
       { email },
-      { password: 1, name: 1, email: 1, role: 1 }
+      { password: 1, name: 1, email: 1 }
     );
     if (!user) {
       res.status(400);

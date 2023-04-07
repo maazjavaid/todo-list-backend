@@ -10,7 +10,7 @@ const todoSchema = new mongoose.Schema({
     required: [true, "User id is required"],
     ref: "User",
   },
-  completed: Boolean,
+  isCompleted: Boolean,
 });
 
 export default mongoose.model("Todo", todoSchema);
