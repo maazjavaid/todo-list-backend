@@ -9,6 +9,7 @@ export const protect = expressAsyncHandler(
     if (!req.headers.authorization?.startsWith("Bearer")) {
       res.status(StatusCodes.UNAUTHORIZED);
       next(new Error("Token Required"));
+      res.end();
     }
 
     const token = req.headers.authorization.split(" ")[1];
@@ -18,6 +19,7 @@ export const protect = expressAsyncHandler(
     if (!req.user) {
       res.status(StatusCodes.UNAUTHORIZED);
       next(new Error("User not Authorized"));
+      res.end();
     }
     next();
   }

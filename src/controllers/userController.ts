@@ -14,6 +14,7 @@ export const registerUser = expressAsyncHandler(
       email,
       password: password,
     });
+
     res.status(StatusCodes.OK).json({
       _id: user._id,
       name: user.name,
@@ -32,6 +33,7 @@ export const loginUser = expressAsyncHandler(
     if (!user) {
       res.status(StatusCodes.NOT_FOUND);
       next(new Error("User Not found"));
+      res.end();
     }
 
     const passCheck = await user.comparePassword(password);
@@ -39,6 +41,7 @@ export const loginUser = expressAsyncHandler(
     if (!passCheck) {
       res.status(StatusCodes.UNAUTHORIZED);
       next(new Error("Invalid Credentials"));
+      res.end();
     }
 
     res.status(StatusCodes.OK).json({
